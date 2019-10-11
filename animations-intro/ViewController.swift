@@ -38,15 +38,24 @@ class ViewController: UIViewController {
         myView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
     }()
 
-    lazy var myViewCenterYConstraint: NSLayoutConstraint = {
-        myView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+    lazy var myViewTopAnchorConstraint: NSLayoutConstraint = {
+        myView.topAnchor.constraint(equalTo: view.topAnchor, constant: myViewHeightConstaint.constant)
     }()
     
     @objc func bounceButtonPressed(sender: UIButton) {
+        let oldConstant = self.myViewTopAnchorConstraint.constant
+        self.myViewTopAnchorConstraint.constant =
+            self.view.bounds.maxY - myViewHeightConstaint.constant
+        myView.alpha = 1.0
         //use constraints instead of number mathy things
-        UIView.animate(withDuration: 1.2, delay: 0.4, options: [.repeat, .autoreverse ], animations: {
-            self.myView.frame.origin.y += (self.view.frame.height - self.myView.frame.height - self.myView.frame.minY)
-        }, completion: nil)
+        
+        UIView.animate(withDuration: 1.2, delay: 0.4, options: [.autoreverse], animations: {
+            self.view.layoutIfNeeded()
+            self.myView.alpha = 0.0
+        }, completion: { (done) in
+            self.myView.alpha = 1.0
+            self.myViewTopAnchorConstraint.constant = oldConstant
+        })
     }
     
     override func viewDidLoad() {
@@ -68,7 +77,7 @@ class ViewController: UIViewController {
                 myViewHeightConstaint,
                 myViewWidthConstraint,
                 myViewCenterXConstraint,
-                myViewCenterYConstraint
+                myViewTopAnchorConstraint
            ])
     }
     
