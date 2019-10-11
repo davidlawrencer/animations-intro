@@ -26,7 +26,7 @@ class ViewController: UIViewController {
         return view
     }()
     
-    lazy var myViewHeightConstaint: NSLayoutConstraint = {
+    lazy var myViewHeightConstraint: NSLayoutConstraint = {
         myView.heightAnchor.constraint(equalToConstant: 200)
     }()
 
@@ -39,13 +39,13 @@ class ViewController: UIViewController {
     }()
 
     lazy var myViewTopAnchorConstraint: NSLayoutConstraint = {
-        myView.topAnchor.constraint(equalTo: view.topAnchor, constant: myViewHeightConstaint.constant)
+        myView.topAnchor.constraint(equalTo: view.topAnchor, constant: myViewHeightConstraint.constant)
     }()
     
     @objc func bounceButtonPressed(sender: UIButton) {
         let oldConstant = self.myViewTopAnchorConstraint.constant
         self.myViewTopAnchorConstraint.constant =
-            self.view.bounds.maxY - myViewHeightConstaint.constant
+            self.view.bounds.maxY - myViewHeightConstraint.constant
         myView.alpha = 1.0
         //use constraints instead of number mathy things
         
@@ -74,7 +74,7 @@ class ViewController: UIViewController {
     private func configureMyViewConstraints() {
         myView.translatesAutoresizingMaskIntoConstraints = false
            NSLayoutConstraint.activate([
-                myViewHeightConstaint,
+                myViewHeightConstraint,
                 myViewWidthConstraint,
                 myViewCenterXConstraint,
                 myViewTopAnchorConstraint
