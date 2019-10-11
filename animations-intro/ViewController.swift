@@ -10,9 +10,11 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    lazy var originalY: CGFloat = 0
+    
     lazy var myButton: UIButton = {
         let button = UIButton(frame: CGRect(x: self.view.frame.midX, y: 100, width: 50, height: 50))
-        button.setTitle("Press Me!", for: .normal)
+        button.setTitle("Press!", for: .normal)
         button.backgroundColor = .blue
         button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         button.layer.cornerRadius =  button.frame.width / 2
@@ -27,15 +29,21 @@ class ViewController: UIViewController {
     }()
     
     @objc func buttonPressed(sender: UIButton) {
-        let alert = UIAlertController.init(title: nil, message: "You pressed a button", preferredStyle: .alert)
-        let ok = UIAlertAction(title: "ok", style: .destructive, handler: nil)
-        alert.addAction(ok)
-        present(alert, animated: true)
+        UIView.animate(withDuration: 1.0, delay: 0.4, options: [], animations: {
+            if self.myView.frame.origin.y < 600 {
+                self.myView.frame.origin.y += 200
+                //it left the screen :(
+            } else {
+                self.myView.frame = CGRect(x: (self.myButton.frame.minX - self.myButton.frame.width / 2), y: self.originalY, width: 100, height: 100)
+            }
+
+        }, completion: nil)
     }
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         self.view.addSubview(myView)
         self.view.addSubview(myButton)
+        originalY = self.myButton.frame.maxY
     }
 }
