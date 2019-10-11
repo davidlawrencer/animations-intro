@@ -29,13 +29,13 @@ class ViewController: UIViewController {
     }()
     
     @objc func buttonPressed(sender: UIButton) {
-        UIView.animate(withDuration: 1.0, delay: 0.4, options: [], animations: {
-            if self.myView.frame.origin.y < 600 {
+        UIView.animate(withDuration: 3.0, delay: 0.4, options: [.repeat], animations: {
+//            if self.myView.frame.origin.y < 600 {
                 self.myView.frame.origin.y += 200
                 //it left the screen :(
-            } else {
-                self.myView.frame = CGRect(x: (self.myButton.frame.minX - self.myButton.frame.width / 2), y: self.originalY, width: 100, height: 100)
-            }
+            } //else {
+//                self.myView.frame = CGRect(x: (self.myButton.frame.minX - self.myButton.frame.width / 2), y: self.originalY, width: 100, height: 100)
+//            }
 
         }, completion: nil)
     }
