@@ -10,6 +10,12 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    lazy var tappedScreenRecognizer: UILongPressGestureRecognizer = {
+        let tapGesture = UILongPressGestureRecognizer(target: self.myView, action: #selector(tapGestureTapped))
+        
+        return tapGesture
+    }()
+    
     lazy var bounceButton: UIButton = { [unowned self] in
         let button = UIButton()
         button.setTitle("Drop", for: .normal)
@@ -25,6 +31,7 @@ class ViewController: UIViewController {
         view.layer.cornerRadius = view.frame.height / 2
         return view
     }()
+    
     
     lazy var myViewHeightConstraint: NSLayoutConstraint = {
         myView.heightAnchor.constraint(equalToConstant: 200)
@@ -58,12 +65,17 @@ class ViewController: UIViewController {
         })
     }
     
+    @objc private func tapGestureTapped() {
+        print("tapped")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         self.view.addSubview(myView)
         self.view.addSubview(bounceButton)
         configureConstraints()
+        self.view.addGestureRecognizer(tappedScreenRecognizer)
     }
     
     private func configureConstraints() {
@@ -90,5 +102,10 @@ class ViewController: UIViewController {
             bounceButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             bounceButton.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: -300)
             ])
+    }
+    
+    @objc private func respondToTap() {
+        print("tapping")
+
     }
 }
